@@ -1,5 +1,8 @@
+var newtab = 0;
+
 chrome.app.runtime.onLaunched.addListener(function() {
-  new UARToolWindow();
+  if (newtab == 0)
+    new UARToolWindow();
 });
 
 var UARToolWindow = function() {
@@ -23,3 +26,20 @@ var UARToolWindow = function() {
     }
   );
 }
+
+chrome.browserAction.onClicked.addListener(function(tab){
+  newtab = 1;
+    chrome.tabs.create({
+       url: ("UARTool.html"),
+       type: "normal",
+       function(win) {
+        win.contentWindow.AddConnectedSerialId = function(id) {
+          connectedSerialId = id;
+        };
+        win.onClosed.addListener(function() {
+          chrome.serial.disconnect(connectedSerialId, function () {
+          });
+        });
+      }
+   });
+});
