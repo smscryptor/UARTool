@@ -17,10 +17,5 @@
     "fileSystem"
   ],
   "browser_action": {
-  },
-  "app": {
-    "background": {
-      "scripts": ["background.js"]
-    }
   }
 }
